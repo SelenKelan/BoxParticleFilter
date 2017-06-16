@@ -1,15 +1,15 @@
-% clc; clear all; close all
-% normVec = @(a) sqrt(sum(a.^2,2));
-% rng(1);
+%clc; clear all; close all
+normVec = @(a) sqrt(sum(a.^2,2));
+rng(1);
 % %% Environment and boxes initialization
-% environment2; % Environment definition
-% initParticles; % Finding the number of boxes/particles
+environment3; % Environment definition
+initParticles; % Finding the number of boxes/particles
 % 
-% stateF_Pos = @(X,U,ts) X + ts*U(1)*[cos(U(2)), sin(U(2))];
+stateF_Pos = @(X,U,ts) X + ts*U(1)*[cos(U(2)), sin(U(2))];
 % 
-% w = cell(N,1);
-% w{1}=1/NParticles*ones(NParticles,1);
-% x_med=zeros(N,2); % prealocating for performance
+w = cell(N,1);
+w{1}=1/NParticles*ones(NParticles,1);
+x_med=zeros(N,2); % prealocating for performance
 
 
  %% PF convencional

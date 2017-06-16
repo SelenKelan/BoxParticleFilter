@@ -42,7 +42,7 @@
         test = w_boxes > 1/(N*100);
         [I,J]=find(test);
         
-        for k=1:length(I),
+        for k=1:length(I)
             % Evaluate measurements (i.e., create weights) using the pdf for the normal distribution
             i = I(k); j = J(k);
             
@@ -61,7 +61,7 @@
         NORM = sum(sum(w_boxes));
         x_med_k_new=x_med_k;
         w_boxes_new=w_boxes.*test; % small boxes go to zero
-        if(NORM == 0), 
+        if(NORM == 0)
             warning('Normalizing constant = 0')
         else
             x_med_k_new=x_med_k/NORM;

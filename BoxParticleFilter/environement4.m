@@ -4,12 +4,14 @@ anormVec = @(a) sqrt(sum(a.^2,2));
 ts = 0.15; 
 th = 0:ts:2*pi;
 
-% real state values
+
+%real
 x = 5*[cos(th)',sin(th)']; x = x + 5;
 dx = diff(x); dx = [dx(1,:);dx];
 N = length(x);
 v = normVec(dx)/ts; 
 theta = atan2(dx(:,2),dx(:,1));
+
 
 % Landmarks
 S =     [5 5];
@@ -44,8 +46,7 @@ for m = 1:NS
         pe{m} = @(x,y,k) normpdf(measure_Func(x,y,S(m,:)) - theta(k),theta_distance_measure(k,m),sqrt(sigma));
 end
 
-% State Function inputs
-U = cell(N,1);
-for k = 1:N
-    U{k} = [Interval(v_measure(k)).inflate(sigma_v),Interval(theta_measure(k)).inflate(sigma_theta)];
-end
+
+
+     
+
