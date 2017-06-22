@@ -53,7 +53,7 @@ function [w_boxes_1,w_boxes_2,x_med] = Boxfilter1(Boxes,ts,stateFunction,stateIn
         
     %% Measurement update
     for m = 1:length(pek)
-        pek{m} = @(x,y) pe{m}(x,y,k);
+        pek{m} = @(x,y) pe{m}(x,y);
     end  
 
     % measurement update

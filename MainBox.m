@@ -1,4 +1,4 @@
-clc; clear all; close all
+ clc; clear all; close all
 normVec = @(a) sqrt(sum(a.^2,2));
 rng(1);
 
@@ -23,17 +23,17 @@ x_med_box=zeros(N,2);
 
 
 figure(1);
-hold on;
 
+axis([-5 15 -5 15]);axis square;
 % plot (x(:,1),x(:,2),'k','LineWidth',1)
 % plotBoxGrid(Boxes,'g','none',1)
 scatter(S(:,1),S(:,2),'mx','linewidth',7)
-
+hold on;
 
 for k=1:N
-    [xc,vc,thetac]=consigne(k,ts);
-    
-    U = [Interval(v_measure(k)).inflate(sigma_v),Interval(theta_measure(k)).inflate(sigma_theta)];
+    [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
+    ur=control([x_med theta_measure v_measure],xc,dxc);
+    [x,v,theta,v_measure, theta_measure, pe, U]=realState(N,k, x, v, theta,ur, ts,S,NS);
     [w_box_1,w_box_2,x_med] = Boxfilter1(Boxes,ts,stateF,U,pe,k,w_boxes{k});
     x_med_box(k,:)=x_med;
     w_boxes{k}=w_box_1;
@@ -44,9 +44,13 @@ for k=1:N
     else
         ang=atan2(x_med(1,2)-x_med_box(k-1,2),x_med(1,1)-x_med_box(k-1,1));
     end
-    x_tank=[x_med ang];
-    xc_tank=[xc thetac];
-    draw_tank(x_tank,'red',0.2);
+%     clf;
+    axis([-5 15 -5 15]);axis square; hold on;
+    x_tank=[x theta];
+    xm_tank=[x_med theta_measure];
+    xc_tank=[xc; thetac];
+    draw_tank(x_tank,'blue',0.2);
+    draw_tank(xm_tank,'red',0.2);
     draw_tank(xc_tank,'black',0.2);
     drawnow;
 end

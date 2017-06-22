@@ -1,7 +1,7 @@
-bound = max(max(abs(dx)));
+bound = 1;
 boxes = ceil([sqrt(NP) sqrt(NP)]); Nboxes = prod(boxes);
-x_min = min(x) - 10*bound;
-x_max = max(x) + 10*bound;
+x_min = [0 0] - 10*bound;
+x_max = [10 10] + 10*bound;
 accuracy_x = ceil(x_max - x_min)./boxes;
 
 % initialising boxes
