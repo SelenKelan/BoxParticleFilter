@@ -29,6 +29,9 @@ axis([-5 15 -5 15]);axis square;
 % plotBoxGrid(Boxes,'g','none',1)
 scatter(S(:,1),S(:,2),'mx','linewidth',7)
 hold on;
+x_tank_list=zeros(3,N);
+xm_tank_list=zeros(3,N);
+xc_tank_list=zeros(3,N);
 
 for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
@@ -45,23 +48,27 @@ for k=1:N
         ang=atan2(x_med(1,2)-x_med_box(k-1,2),x_med(1,1)-x_med_box(k-1,1));
     end
 %     clf;
-    axis([-5 15 -5 15]);axis square; hold on;
-    x_tank=[x theta];
-    xm_tank=[x_med theta_measure];
+%     axis([-5 15 -5 15]);axis square; hold on;
+    x_tank=[x(1);x(2);theta];
+    xm_tank=[x_med(1);x_med(2);theta_measure];
     xc_tank=[xc; thetac];
-    draw_tank(x_tank,'blue',0.2);
-    draw_tank(xm_tank,'red',0.2);
-    draw_tank(xc_tank,'black',0.2);
-    drawnow;
+    x_tank_list(:,k)=x_tank;
+    xm_tank_list(:,k)=xm_tank;
+    xc_tank_list(:,k)=xc_tank;
+%     draw_tank(x_tank,'blue',0.2);
+%     draw_tank(xm_tank,'red',0.2);
+%     draw_tank(xc_tank,'black',0.2);
+%     drawnow;
 end
-%% Plots
-% 
-% figure (1); 
-% %subplot(2,1,1); 
-% hold on
-% plot (x(:,1),x(:,2),'k','LineWidth',3)
-% plot (x_med_box(:,1),x_med_box(:,2),'r','LineWidth',2)
-% scatter(S(:,1),S(:,2),'mx','linewidth',7)
-% plotBoxGrid(Boxes,'g','none',1)
-% plotDistance(x,x_med_box,'b');
-% legend ('real','Box particle model 1','Location','northwest')
+for l=1:N
+    a = waitforbuttonpress;
+    for k=1:N
+
+        clf;
+        axis([-5 15 -5 15]);axis square; hold on;
+        draw_tank(x_tank_list(:,k),'blue',0.2);
+        draw_tank(xm_tank_list(:,k),'red',0.2);
+        draw_tank(xc_tank_list(:,k),'black',0.2);
+        drawnow;
+    end
+end
