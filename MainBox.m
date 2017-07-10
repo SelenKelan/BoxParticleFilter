@@ -10,7 +10,7 @@ stateF = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 environement4;
 
 %% Box particle filtering
-NP = 1024;
+
 initBoxes;
 
 % init position
@@ -32,9 +32,11 @@ x_med_box=zeros(N,2);
 x_tank_list=zeros(3,N);
 xm_tank_list=zeros(3,N);
 xc_tank_list=zeros(3,N);
-fft_list=zeros(N,N);
-row_cell=cell(N,1);
-col_cell=cell(N,1);
+% fft_list=zeros(N,N);
+% row_cell=cell(N,1);
+% col_cell=cell(N,1);
+mats=cell(N,1);
+hit=cell(N,1);
 for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
@@ -43,6 +45,13 @@ for k=1:N
     x_med_box(k,:)=x_med;
     w_boxes{k}=w_box_1;
     w_boxes{k+1}=w_box_2;
+    mats{k}=boxthreshold(w_box_1,0.01);
+    hit{k}=mats{k}==envimat;
+    touch=find(hit{k});
+    if ~isempty(touch)
+        
+    end
+    
 %     [row,col]=find(w_boxes{k});
 %     row_cell{k}=row;
 %     col_cell{k}=col;
@@ -71,6 +80,7 @@ end
 
 figure(1);
 figure(2);
+[enrow,encol]=find(envimat==1);
 for l=1:N
     a = waitforbuttonpress;
     for k=1:N
@@ -86,7 +96,21 @@ for l=1:N
         
         figure(2);
         clf;hold on;
-        plot(HeatMap(w_boxes{k}));
+        axis([-10 20 -10 20]);axis square; hold on;
+%         [row,col]=find(mats{k});
+%         for i=1:length(row)
+%             plot(Boxes{row(i),col(i)},'green','green',1);
+%         end
+%         for i=1:length(enrow)
+%             plot(Boxes{enrow(i),encol(i)},'black','black',1);
+%         end
+        [row,col]=find(hit{k});
+        for i=1:length(row)
+            plot(Boxes{row(i),col(i)},'red','red',1);
+        end
+        
+        
+        
 %         lent=-N/2:N/2-1;
 %         plot(lent,fft_list(k,:));
         drawnow;

@@ -21,5 +21,13 @@ theta_measure = theta + 2*(rand(size(theta))-0.5)*sigma_theta;
 S =     [5 5];
 NS = size(S,1); % number of landmarks
 
+% boxes
+NP = 1024;
+% environement
+envimat=2*ones(sqrt(NP),sqrt(NP));
+envimat(:,1:4)=1;
+envimat(1:4,:)=1;
+envimat(:,end-3:end)=1;
+envimat(end-3:end,:)=1;
      
 
