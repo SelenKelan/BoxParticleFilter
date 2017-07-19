@@ -2,7 +2,7 @@ anormVec = @(a) sqrt(sum(a.^2,2));
 
 %% path 2
 ts = 0.05; 
-th = 0:ts:1*pi;
+th = 0:ts:3*pi;
 N=length(th);
 
 %real

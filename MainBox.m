@@ -37,6 +37,7 @@ xc_tank_list=zeros(3,N);
 % col_cell=cell(N,1);
 mats=cell(N,1);
 hit=cell(N,1);
+tch=zeros(2,N);
 for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
@@ -48,10 +49,22 @@ for k=1:N
     mats{k}=boxthreshold(w_box_1,0.01);
     hit{k}=mats{k}==envimat;
     touch=find(hit{k});
+    touchcenter=[0 0];
     if ~isempty(touch)
         
+        nt=0;
+        for i=touch.'
+            touchbox=mid(Boxes{i});
+            if nt==0
+                touchcenter=touchbox;
+            else
+                touchcenter=(touchcenter*nt+touchbox)/(nt+1);
+            end
+            nt=nt+1;
+        end
+        disp(touchcenter);
     end
-    
+    tch(:,k)=touchcenter;
 %     [row,col]=find(w_boxes{k});
 %     row_cell{k}=row;
 %     col_cell{k}=col;
@@ -79,7 +92,6 @@ for k=1:N
 end
 
 figure(1);
-figure(2);
 [enrow,encol]=find(envimat==1);
 for l=1:N
     a = waitforbuttonpress;
@@ -87,20 +99,12 @@ for l=1:N
         figure(1);
         clf;
         axis([-10 20 -10 20]);axis square; hold on;
-%         plotBoxGrid(Boxes{k}(w_boxes{k}~=0),'g','none',1);
         
-        draw_tank(x_tank_list(:,k),'blue',0.2);
-        draw_tank(xm_tank_list(:,k),'red',0.2);
-        draw_tank(xc_tank_list(:,k),'black',0.2);
-        drawnow;
-        
-        figure(2);
-        clf;hold on;
-        axis([-10 20 -10 20]);axis square; hold on;
-%         [row,col]=find(mats{k});
-%         for i=1:length(row)
-%             plot(Boxes{row(i),col(i)},'green','green',1);
-%         end
+
+        [row,col]=find(mats{k});
+        for i=1:length(row)
+            plot(Boxes{row(i),col(i)},'green','green',1);
+        end
 %         for i=1:length(enrow)
 %             plot(Boxes{enrow(i),encol(i)},'black','black',1);
 %         end
@@ -108,8 +112,10 @@ for l=1:N
         for i=1:length(row)
             plot(Boxes{row(i),col(i)},'red','red',1);
         end
-        
-        
+        scatter(S(:,1),S(:,2),'mx','linewidth',7);
+        draw_tank(x_tank_list(:,k),'blue',0.2);
+        draw_tank(xm_tank_list(:,k),'red',0.2);
+        draw_tank(xc_tank_list(:,k),'black',0.2);
         
 %         lent=-N/2:N/2-1;
 %         plot(lent,fft_list(k,:));
