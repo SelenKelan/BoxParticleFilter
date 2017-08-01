@@ -37,34 +37,22 @@ xc_tank_list=zeros(3,N);
 % col_cell=cell(N,1);
 mats=cell(N,1);
 hit=cell(N,1);
-tch=zeros(2,N);
 for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
+    mats{k}=boxthreshold(w_boxes{k},0.01);
+    hit{k}=mats{k}==envimat;
+    touch=find(hit{k});
+    if ~isempty(touch)        
+%          ur=ur+[normVec(Mx,My) ; atan(Mx,My)]
+    end
     [x,v,theta,v_measure, theta_measure, pe, U]=realState(N,k, x, v, theta,ur, ts,S,NS);
     [w_box_1,w_box_2,x_med] = Boxfilter1(Boxes,ts,stateF,U,pe,k,w_boxes{k});
     x_med_box(k,:)=x_med;
     w_boxes{k}=w_box_1;
     w_boxes{k+1}=w_box_2;
-    mats{k}=boxthreshold(w_box_1,0.01);
-    hit{k}=mats{k}==envimat;
-    touch=find(hit{k});
-    touchcenter=[0 0];
-    if ~isempty(touch)
-        
-        nt=0;
-        for i=touch.'
-            touchbox=mid(Boxes{i});
-            if nt==0
-                touchcenter=touchbox;
-            else
-                touchcenter=(touchcenter*nt+touchbox)/(nt+1);
-            end
-            nt=nt+1;
-        end
-        disp(touchcenter);
-    end
-    tch(:,k)=touchcenter;
+    
+    
 %     [row,col]=find(w_boxes{k});
 %     row_cell{k}=row;
 %     col_cell{k}=col;
@@ -112,7 +100,6 @@ for l=1:N
         for i=1:length(row)
             plot(Boxes{row(i),col(i)},'red','red',1);
         end
-        scatter(S(:,1),S(:,2),'mx','linewidth',7);
         draw_tank(x_tank_list(:,k),'blue',0.2);
         draw_tank(xm_tank_list(:,k),'red',0.2);
         draw_tank(xc_tank_list(:,k),'black',0.2);
