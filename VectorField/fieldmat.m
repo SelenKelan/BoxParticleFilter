@@ -1,5 +1,5 @@
 function [Mx,My] = fieldmat(envimat)
-    k=10;
+    k=12;
     [m,n]=size(envimat);
     walls=envimat==ones(m,n);
     free=envimat==2*ones(m,n);

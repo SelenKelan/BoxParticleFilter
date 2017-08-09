@@ -1,6 +1,5 @@
  clc; clear all; close all
-normVec = @(a) sqrt(sum(a.^2,2));
-rng(1);
+
 
 %% Defining system conditions
 % robot state function
@@ -40,11 +39,12 @@ hit=cell(N,1);
 for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
-    mats{k}=boxthreshold(w_boxes{k},0.01);
+    mats{k}=boxthreshold(w_boxes{k},0.8);
     hit{k}=mats{k}==envimat;
     touch=find(hit{k});
-    if ~isempty(touch)        
-%          ur=ur+[normVec(Mx,My) ; atan(Mx,My)]
+    if ~isempty(touch)
+        [boxX,boxY]=locator(x_med2(1),x_med2(2),Boxes);        
+        ur=ur+[normVec([Mx(boxX,boxY),My(boxX,boxY)]) ; atan2(Mx(boxX,boxY),My(boxX,boxY))];
     end
     [x,v,theta,v_measure, theta_measure, pe, U]=realState(N,k, x, v, theta,ur, ts,S,NS);
     [w_box_1,w_box_2,x_med] = Boxfilter1(Boxes,ts,stateF,U,pe,k,w_boxes{k});

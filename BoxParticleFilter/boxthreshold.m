@@ -1,13 +1,14 @@
 function mat = boxthreshold( boxes, threshold )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-ind=find(boxes);
-mat=zeros(length(boxes));
-for k=1:length(ind)
-    if boxes(ind(k))>threshold
-        mat(ind(k))=1;
+    ind=find(boxes);
+    mat=zeros(length(boxes));
+    boxeslist=[boxes(ind) ind];
+    sortedboxeslist=flip(sortrows(boxeslist,1));
+    prop=0;
+    k=1;
+    while prop<threshold
+        mat(int16(sortedboxeslist(k,2)))=1;
+        prop=prop+sortedboxeslist(k,1);
+        k=k+1;
     end
-end
-
 end
 

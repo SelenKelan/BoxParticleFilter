@@ -1,8 +1,9 @@
 anormVec = @(a) sqrt(sum(a.^2,2));
-
+normVec = @(a) sqrt(sum(a.^2,2));
+rng(1);
 %% path 2
 ts = 0.05; 
-th = 0:ts:1*pi;
+th = 0:ts:4*pi;
 N=length(th);
 
 %real
@@ -18,7 +19,7 @@ v_measure = v + 2*(rand(size(v))-0.5)*sigma_v;
 theta_measure = theta + 2*(rand(size(theta))-0.5)*sigma_theta;
 
     % Landmarks
-S =     [-5 -5;20 0;20 20];
+S =     [-5 -5;-5 20;20 20;20 -5];
 NS = size(S,1); % number of landmarks
 
 % boxes
