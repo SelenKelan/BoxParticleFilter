@@ -1,4 +1,4 @@
-function [x,v,theta,v_measure, theta_measure, pe, U]=realState(N,k, x, v, theta,ur, ts,S,NS)
+function [x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur, ts,S,NS)
     function  xdot  = f(x,u)   % state : x =(x,y,theta,v)
         xdot=[x(4)*cos(x(3)); x(4)*sin(x(3)); u(1); u(2)];
     end
