@@ -5,8 +5,8 @@ function [x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur
 % noise
 sigma=0.5; sigma_v = 0.02; sigma_theta = 0.002;
 % accuracy_x = [1, 1]; % box dimensions
-%State modifier
 
+%State modifier
 xtot=[x(1);x(2);theta;v];
 xtot=xtot+f(xtot,ur)*ts;
 x=[xtot(1) xtot(2)];

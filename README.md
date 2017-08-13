@@ -1,7 +1,7 @@
 # BoxParticleFilter
 
 Matlab code for the Box Particle filtering project. Implementation of Interval class and simulation applications.
-Control method adapted for gaussian noise on sensors Based on proportional derivative controller based on the robot vision of self.
+Control method adapted for gaussian noise on sensors. Based on proportional derivative controller based on the robot vision of self.
 Obstacle avoidance implemented by vector field generated from the map of the playground.
 
 ## Using it

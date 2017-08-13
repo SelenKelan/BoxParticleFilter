@@ -1,4 +1,4 @@
- clc; clear all; close all
+clc; clear all; close all
 
 
 %% Defining system conditions
