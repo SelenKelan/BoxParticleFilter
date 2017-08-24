@@ -1,4 +1,6 @@
 function mat = boxthreshold( boxes, threshold )
+%boxthreshold : creates a presence matrix for the robot to have more than
+%'threshold' chances to be.
     ind=find(boxes);
     mat=zeros(length(boxes));
     boxeslist=[boxes(ind) ind];

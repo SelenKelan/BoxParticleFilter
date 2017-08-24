@@ -1,4 +1,6 @@
 function [Mx,My] = fieldmat(envimat)
+%fieldmat : creates two vector fields, acting as repulse fields from the
+%walls.
     k=12;
     [m,n]=size(envimat);
     walls=envimat==ones(m,n);

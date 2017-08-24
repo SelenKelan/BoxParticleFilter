@@ -4,27 +4,23 @@
 %
 %
 %	- Usage = 
-%		[w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
+%		[w_boxes_1,w_boxes_2,x_med] = Boxfilter1(Boxes,ts,stateFunction,stateInput,pe,w_boxes_in)
 %
 %	- inputs =
-%		- N - INT, number of boxes (can be slightly different if the number
-%		doesn't have an integer square root).
 %		- Boxes - CELL ARRAY, defines all boxes
 %       - ts - DOUBLE, sampling time
 %       - stateFunction - LAMBDA FUNCTION, state evolution
-%       - stateInput - CELL ARRAY, state function input
+%       - stateInput - INTERVAL, state function input
 %       - pe - CELL ARRAY, landmark distribution functions in (x,y) and time
-%       - [OPTIONAL] show - BOOL, if true, show the number of each time
-%       step (default = false).
-%       - [OPTIONAL] w_boxes0 - DOUBLE ARRAY, probability distribution at
-%       initial time (default = ).
+%       - w_boxes_in - DOUBLE ARRAY, probability distribution at previous step
 %
 %	- outputs = 	
-%       - w_boxes - CELL ARRAY, probability distribution at each step
+%       - w_boxes_1 - DOUBLE ARRAY, probability distribution at current step
+%       - w_boxes_2 - DOUBLE ARRAY, probability distribution at next step
 %       - x_med - DOUBLE ARRAY, estimation using w_boxes
 %									 
 %	-> MATLAB version used:	
-%		- R2012b (8.0.0.783) 64-bit	
+%		- R2016b (9.1.0.441655) 64-bit	
 %				 
 % 	-> Special toolboxes used: 
 %		-- none	--
@@ -34,15 +30,16 @@
 %		- measurementUpdate.m
 %		- stateUpdate.m
 %									 
-%	-> Created by Evandro Bernardes	 								 
+%	-> Created by Evandro Bernardes	
+%   -> Modified by Raphaël Abellan--Romita
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	2.0
 %
-%	last edited in:	31/05/2017 						 
+%	last edited in:	24/08/2017 						 
 %									 
 %***********************************************************************
-function [w_boxes_1,w_boxes_2,x_med] = Boxfilter1(Boxes,ts,stateFunction,stateInput,pe,k,w_boxes_in)
+function [w_boxes_1,w_boxes_2,x_med] = Boxfilter1(Boxes,ts,stateFunction,stateInput,pe,w_boxes_in)
    
     
 
