@@ -3,7 +3,6 @@ normVec = @(a) sqrt(sum(a.^2,2));
 rng(1);
 
 % path
-tn=4;
 ts = 0.05;
 th = 0:ts:tn*pi;
 N=length(th);
@@ -27,12 +26,7 @@ NS = size(S,1); % number of landmarks
 % boxes
 NP = 1024;
 
-% environement
-envimat=2*ones(sqrt(NP),sqrt(NP));
-envimat(:,1:4)=1;
-envimat(1:4,:)=1;
-envimat(:,end-3:end)=1;
-envimat(end-3:end,:)=1;
+
 
 %vector field matrix
 [Mx,My]=fieldmat(envimat);
