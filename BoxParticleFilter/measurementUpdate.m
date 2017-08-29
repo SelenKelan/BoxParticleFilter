@@ -50,7 +50,7 @@
             Like = 1;
             for m=1:length(pe)
                 % error pdf to be integrated
-                Like = Like*100*quad2d(pe{m},bds(1,1),bds(2,1),bds(1,2),bds(2,2)); % integration of pdf
+                Like = Like*100*quad2d(pe{m},bds(1,1),bds(2,1),bds(1,2),bds(2,2),'MaxFunEval',10000); % integration of pdf
             end
 
             w_boxes(i,j)=w_boxes(i,j)*Like;

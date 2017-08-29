@@ -142,7 +142,13 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)*
 if handles.calc
-    
+    handles.state=zeros(100,400,3);
+    handles.state(:,:,2)=1;
+    handles.state=insertText(handles.state,[0 0],'Showing','FontSize',50,'BoxOpacity',0);
+    axes(handles.axes2);
+    cla;
+    imshow(handles.state);
+    drawnow;
     axes(handles.axes1);
     [enrow,encol]=find(handles.envimat==1);
     axis on;axis xy;
@@ -249,20 +255,12 @@ axes(handles.axes1);
 while rolling    
     cla;
     axis image;
-%     [enrow,encol]=find(handles.envimat==1);
-%     for i=1:length(enrow)
-%         plot(handles.Boxes{enrow(i),encol(i)},'black','black',1);
-%     end
     imshow(handles.envimat,[1,2]);
-    %set(gcf,'Position',get(0,'Screensize'));
-    hFH=imfreehand();
-    % binaryimage=hFH.createMask();
+    hFH=imrect();
     xy=hFH.getPosition;
-    xy=unique(ceil(xy),'rows','first');
+    xy=ceil(xy);
     disp(xy);
-    handles.envimat(xy(:,2),xy(:,1))=1;
-    
-    
+    handles.envimat(xy(2):xy(2)+xy(4),xy(1):xy(1)+xy(3))=1;    
 end
 cla;
 axis on;axis xy;axis([-10 20 -10 20]);axis square; hold on;

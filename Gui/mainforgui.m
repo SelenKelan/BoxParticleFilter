@@ -4,7 +4,7 @@ stateF = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 
 % environment definition (measures, probability functions, etc)
 
-environement;
+environementgui;
 
 
 
