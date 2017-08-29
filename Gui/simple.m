@@ -22,7 +22,7 @@ function varargout = simple(varargin)
 
 % Edit the above text to modify the response to help simple
 
-% Last Modified by GUIDE v2.5 25-Aug-2017 21:18:12
+% Last Modified by GUIDE v2.5 28-Aug-2017 18:11:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,6 +55,7 @@ handles.calc=false;
 handles.robotson=false;
 handles.wallson=false;
 handles.boxeson=false;
+handles.landmarkson=false;
 handles.chgwalls=false;
 handles.slider=0.2;
 global rolling;
@@ -67,6 +68,7 @@ envimat(1:4,:)=1;
 envimat(:,end-3:end)=1;
 envimat(end-3:end,:)=1;
 handles.envimat=envimat;
+handles.threshold=0.4;
 handles.state=zeros(100,400,3);
 handles.state(:,:,1)=1;
 handles.state=insertText(handles.state,[0 0],'No Simulation','FontSize',50,'BoxOpacity',0);
@@ -109,6 +111,7 @@ cla;
 imshow(handles.state);
 drawnow;
 tn=handles.slider;
+threshold=handles.threshold;
 envimat=handles.envimat;
 mainforgui
 handles.state=zeros(100,400,3);
@@ -127,6 +130,7 @@ handles.mats=mats;
 handles.hit=hit;
 handles.Boxes=Boxes;
 handles.calc=true;
+handles.S=S;
 guidata(hObject, handles);
 
 
@@ -145,6 +149,7 @@ if handles.calc
     for k=1:handles.N
         cla;
             axis([-10 20 -10 20]);axis square; hold on;
+            
             if handles.wallson
                 for i=1:length(enrow)
                     plot(handles.Boxes{enrow(i),encol(i)},'black','black',1);
@@ -166,6 +171,10 @@ if handles.calc
                 draw_tank(handles.xm_tank_list(:,k),'red',0.2);
                 draw_tank(handles.xc_tank_list(:,k),'black',0.2);
             end
+            if handles.landmarkson
+                scatter(handles.S(:,1),handles.S(:,2));
+            end
+            
             drawnow;
     end
 else
@@ -282,3 +291,36 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 global rolling;
 rolling=false;
 guidata(hObject, handles);
+
+
+% --- Executes on button press in checkbox4.
+function checkbox4_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.landmarkson=get(hObject,'Value');
+guidata(hObject, handles);
+% Hint: get(hObject,'Value') returns toggle state of checkbox4
+
+
+% --- Executes on slider movement.
+function slider2_Callback(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.threshold=get(hObject,'Value');
+guidata(hObject, handles);
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end

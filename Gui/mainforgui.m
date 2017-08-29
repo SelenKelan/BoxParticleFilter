@@ -36,7 +36,7 @@ for k=1:N
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
     %look for potential collision
-    mats{k}=boxthreshold(w_boxes{k},0.8);
+    mats{k}=boxthreshold(w_boxes{k},threshold);
     hit{k}=mats{k}==envimat;
     touch=find(hit{k});
     %if colision, add repulse vector to control vector
