@@ -3,9 +3,6 @@ function mat = boxthreshold( boxes, threshold )
 % -Inputs = 
 %   -boxes - matrix of presence probabilities
 %   -threshold - total probability of presence
-% -Outputs =
-%   -mat - presence area of the robot in a matrix (same size as boxes)
-
     ind=find(boxes);
     mat=zeros(length(boxes));
     boxeslist=[boxes(ind) ind];

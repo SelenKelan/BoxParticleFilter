@@ -1,5 +1,16 @@
 function [ xc,dxc,ddxc,vc,thetac ] = consigne( k,ts )
-%consigne : creates a series of consign vectors for a robot to follow.
+%% consigne : creates a series of consign vectors for a robot to follow.
+% -Inputs =
+%   -k - step number
+%   -ts - step size
+%
+% -Outputs=
+%   -xc - position vector
+%   -dxc - derivative vector
+%   -ddxc - second derivative vector
+%   -vc - speed
+%   -thetac - angle
+
     th=k*ts;
     speed=0.7;
     normVec = @(a) sqrt(sum(a.^2,2));

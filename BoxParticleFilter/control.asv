@@ -3,9 +3,6 @@ function u = control(x,w,dw)
 % -Inputs= 
 %   -x - robot state vector
 %   -w - consign vector
-%   -dw - derivative consign vector
-% -Outputs = 
-%   -u - control vector
 
     A = [-x(4)*sin(x(3)), cos(x(3));
          x(4)*cos(x(3)), sin(x(3)) ];

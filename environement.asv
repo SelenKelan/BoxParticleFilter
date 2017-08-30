@@ -12,17 +12,16 @@ th = 0:ts:tn*pi;
 N=length(th);%number of steps
 
 %real
-x = [10 5];%starting position vector
-dx = [0.1 0];%starting speed vector
-v = normVec(dx)/ts;% starting speed
-theta = pi/2;% starting angle
+x = [10 5];%starting position
+dx = [0.1 0];%starting speed
+v = normVec(dx)/ts;
+theta = pi/2;
 
 x_med=[10 5];
 x_med2=x_med;
-% 
 sigma=0.5; sigma_v = 0.02; sigma_theta = 0.002;
 v_measure = v + 2*(rand(size(v))-0.5)*sigma_v;% measured speed with noise
-theta_measure = theta + 2*(rand(size(theta))-0.5)*sigma_theta;% measured angle with noise
+theta_measure = theta + 2*(rand(size(theta))-0.5)*sigma_theta;%
 
 % Landmarks
 S =     [-5 -5;-5 20;20 20;20 -5];%landmarks definition

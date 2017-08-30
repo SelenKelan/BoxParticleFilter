@@ -1,4 +1,5 @@
 clc; clear all; close all
+%% Main For Box particle Filtering Simulation
 
 
 %% Defining system conditions
@@ -9,23 +10,23 @@ stateF = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 environement;
 
 %% Box particle filtering
-
+% boxes definition
 initBoxes;
-
-% init boxes
+%counting and numbering boxes
 [i,j] = findIndexes(Interval(x(1,1),x(1,2)),Boxes);
 i = i-2:i+2; j = j-2:j+2;
+%first state of boxes
 w_boxes_0 = zeros(size(Boxes)); w_boxes_0(i,j) = 1; w_boxes_0 = w_boxes_0/sum(sum(w_boxes_0));
-w_boxes = cell(N,1);
+w_boxes = cell(N,1);%list of boxes through simulation time
 w_boxes{1} = w_boxes_0;
-x_med_box=zeros(N,2);
+x_med_box=zeros(N,2);%list of self-measured positions
 
 % Init lists
-x_tank_list=zeros(3,N);
-xm_tank_list=zeros(3,N);
-xc_tank_list=zeros(3,N);
-mats=cell(N,1);
-hit=cell(N,1);
+x_tank_list=zeros(3,N);%list of positions of the real robot
+xm_tank_list=zeros(3,N);%list of positions of the measured robot
+xc_tank_list=zeros(3,N);%list of positions of the consign robot
+mats=cell(N,1);% list of boxes used for collision planning
+hit=cell(N,1);% list of boxes/wall collisions
 
 
 % Main Loop
@@ -33,15 +34,20 @@ for k=1:N
     %display iteration number
     disp(k);
     %create control vector
+    % xc,dxc,ddxc,vc,thetac : full state of consign robot (position,
+    % derivative, second derivative, speed, and angle)
     [xc,dxc,ddxc,vc,thetac]=consigne(k,ts);
     ur=control([x_med2 theta_measure v_measure],xc,dxc);
     %look for potential collision
     mats{k}=boxthreshold(w_boxes{k},0.8);
+    %if walls and boxes overlap
     hit{k}=mats{k}==envimat;
     touch=find(hit{k});
-    %if colision, add repulse vector to control vector
+    %if collision, add repulse vector to control vector
     if ~isempty(touch)
+        %find the box in which the measured robot is 
         [boxX,boxY]=locator(x_med2(1),x_med2(2),Boxes);
+        %apply vector corresponding to the control vector
         ur=ur+[normVec([Mx(boxX,boxY),My(boxX,boxY)]) ; atan2(Mx(boxX,boxY),My(boxX,boxY))];
     end
     %new step for the state of the system
@@ -58,9 +64,9 @@ for k=1:N
         x_med2=x_med;
     end
     %creating positions of real, self-measured and consign robots
-    x_tank=[x(1);x(2);theta];
-    xm_tank=[x_med2(1);x_med2(2);theta_measure];
-    xc_tank=[xc; thetac];
+    x_tank=[x(1);x(2);theta]; % real robot
+    xm_tank=[x_med2(1);x_med2(2);theta_measure]; %measured robot
+    xc_tank=[xc; thetac]; %consign robot
     %saving those positions in lists.
     x_tank_list(:,k)=x_tank;
     xm_tank_list(:,k)=xm_tank;
