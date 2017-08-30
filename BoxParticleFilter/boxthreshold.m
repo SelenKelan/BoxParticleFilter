@@ -1,10 +1,10 @@
 function mat = boxthreshold( boxes, threshold )
 %% boxthreshold : creates a presence matrix for where the robot has more than 'threshold' chances to be.
 % -Inputs = 
-%   -boxes - matrix of presence probabilities
-%   -threshold - total probability of presence
+%   -boxes - DOUBLE ARRAY, matrix of presence probabilities
+%   -threshold - DOUBLE, total probability of presence
 % -Outputs =
-%   -mat - presence area of the robot in a matrix (same size as boxes)
+%   -mat - BINARY ARRAY, presence area of the robot in a matrix (same size as boxes)
 
     ind=find(boxes);
     mat=zeros(length(boxes));

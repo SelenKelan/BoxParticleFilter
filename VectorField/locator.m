@@ -1,12 +1,12 @@
 function [a,b]=locator(x,y,Boxes)
 %% locator : finds the box in which the robot is
 % -Inputs =
-%   -x - lattitude of the robot
-%   -y - longitude of the robot
-%   -Boxes - matrix of interval boxes of the playground
+%   -x - DOUBLE, lattitude of the robot
+%   -y - DOUBLE, longitude of the robot
+%   -Boxes - CELL ARRAY, matrix of interval boxes of the playground
 % -Output =
-%   -a -first index of interval in which the robot is in Boxes
-%   -b -second index of interval in which the robot is in Boxes
+%   -a - INT, first index of interval in which the robot is in Boxes
+%   -b - INT, second index of interval in which the robot is in Boxes
 
     for i=1:length(Boxes)
         for j=1:length(Boxes)

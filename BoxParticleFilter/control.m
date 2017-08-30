@@ -1,11 +1,11 @@
 function u = control(x,w,dw)
 %% control : creates control vector from state and trajectory vector
 % -Inputs= 
-%   -x - robot state vector
-%   -w - consign vector
-%   -dw - derivative consign vector
+%   -x - DOUBLE ARRAY, robot state vector
+%   -w - DOUBLE ARRAY, consign vector
+%   -dw - DOUBLE ARRAY, derivative consign vector
 % -Outputs = 
-%   -u - control vector
+%   -u - DOUBLE ARRAY, control vector
 
     A = [-x(4)*sin(x(3)), cos(x(3));
          x(4)*cos(x(3)), sin(x(3)) ];

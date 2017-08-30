@@ -1,7 +1,12 @@
-function [Mx,My] = fieldmat(envimat)
-%fieldmat : creates two vector fields, acting as repulse fields from the
-%walls.
-    k=12;
+function [Mx,My] = fieldmat(envimat,k)
+%% fieldmat : creates two vector fields, acting as repulse fields from the walls.
+% - Inputs=
+%   -envimat - DOUBLE ARRAY, environement matrix
+%   -k - optional - DOUBLE, strength of the vector field
+% - Outputs = 
+%   -Mx - DOUBLE ARRAY, matrix of the x-axis part of the vector field
+%   -My - DOUBLE ARRAY, matrix of the y-axis part of the vector field
+    if (exist('k')==0), k=12; end;
     [m,n]=size(envimat);
     walls=envimat==ones(m,n);
     free=envimat==2*ones(m,n);

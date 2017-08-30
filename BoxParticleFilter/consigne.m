@@ -1,15 +1,15 @@
 function [ xc,dxc,ddxc,vc,thetac ] = consigne( k,ts )
 %% consigne : creates a series of consign vectors for a robot to follow.
 % -Inputs =
-%   -k - step number
-%   -ts - step size
+%   -k - INT, step number
+%   -ts - DOUBLE, step size
 %
 % -Outputs=
-%   -xc - position vector
-%   -dxc - derivative vector
-%   -ddxc - second derivative vector
-%   -vc - speed
-%   -thetac - angle
+%   -xc - DOUBLE ARRAY, position vector
+%   -dxc - DOUBLE ARRAY, derivative vector
+%   -ddxc - DOUBLE ARRAY, second derivative vector
+%   -vc - DOUBLE, speed
+%   -thetac - DOUBLE, angle
 
     th=k*ts;
     speed=0.7;
