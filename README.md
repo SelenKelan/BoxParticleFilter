@@ -4,9 +4,16 @@ Matlab code for the Box Particle filtering project. Implementation of Interval c
 Control method adapted for gaussian noise on sensors. Based on proportional derivative controller based on the robot vision of self.
 Obstacle avoidance implemented by vector field generated from the map of the playground.
 
+## Branches
+
+* Simple-control : step-by-step control of the robot moves by simple Proportional-derivative law. May have junk code mixed.
+* Obstacle-avoidance : vector-field based approach on control, to steer the robot away from walls.
+* Gui : graphic interface based on latest branch. May add undiscovered bugs.
+* Main : latest stable code version
+
 ## Using it
 
-Matlab standard code, based on rev 2016a
+Matlab standard code, based on rev 2016b
 
 ### Installing
 

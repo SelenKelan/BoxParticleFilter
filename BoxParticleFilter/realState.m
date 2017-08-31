@@ -34,8 +34,9 @@
 % 	-> Other dependencies: 
 %		- Interval.m
 %									 
-%   -> Created by Raphaël Abellan--Romita
-%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%	-> Created by Evandro Bernardes	
+%   -> Modified by Raphaël Abellan--Romita
+%		- at IRI (Barcelona, Catalonia, Spain)											 								 
 %									 
 % 	Code version:	2.0
 %
@@ -45,15 +46,20 @@
 
 
 function [x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur, ts,S,NS)
+    % lambda-function type for derivative vector creation
     function  xdot  = f(x,u)   % state : x =(x,y,theta,v)
         xdot=[x(4)*cos(x(3)); x(4)*sin(x(3)); u(1); u(2)];
     end
-% noise
-sigma=0.5; sigma_v = 0.02; sigma_theta = 0.002;
+
+% noise values
+sigma=0.5; % global noise
+sigma_v = 0.02; % speed sensor noise
+sigma_theta = 0.002; % cap sensor noise
 % accuracy_x = [1, 1]; % box dimensions
 
 %State modifier
 xtot=[x(1);x(2);theta;v];
+% simulaneous modification. sequential may create problems.
 xtot=xtot+f(xtot,ur)*ts;
 x=[xtot(1) xtot(2)];
 theta=xtot(3);
