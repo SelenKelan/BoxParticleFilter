@@ -1,3 +1,49 @@
+%*********************************************************************** 
+%									 
+%	-- 2D box particle filtering. 
+%
+%
+%	- Usage = 
+%		[x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur, ts,S,NS)
+%
+%	- inputs =
+%       - N - INT, number of boxes
+%       - x - DOUBLE ARRAY, position vector
+%       - v - DOUBLE, robot speed
+%       - theta - DOUBLE, robot cap
+%       - ur - DOUBLE ARRAY, consign vector
+%       - ts - DOUBLE, step size
+%       - S - DOUBLE ARRAY, landmarks
+%       - NS - INT, number of landmarks
+%
+%	- outputs = 	
+%       - x - DOUBLE ARRAY, position vector
+%       - v - DOUBLE, robot speed
+%       - theta - DOUBLE, robot cap
+%       - v_measure - DOUBLE, robot speed with noise
+%       - theta_measure - DOUBLE, robot cap with noise
+%       - pe - CELL ARRAY, function for each landmark
+%       - U - INTERVAL, measured speed and cap in interval
+%									 
+%	-> MATLAB version used:	
+%		- R2016b (9.1.0.441655) 64-bit	
+%				 
+% 	-> Special toolboxes used: 
+%		-- none	--
+%
+% 	-> Other dependencies: 
+%		- Interval.m
+%									 
+%   -> Created by Raphaël Abellan--Romita
+%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%									 
+% 	Code version:	2.0
+%
+%	last edited in:	24/08/2017 						 
+%									 
+%***********************************************************************
+
+
 function [x,v,theta,v_measure, theta_measure, pe, U]=realState(N, x, v, theta,ur, ts,S,NS)
     function  xdot  = f(x,u)   % state : x =(x,y,theta,v)
         xdot=[x(4)*cos(x(3)); x(4)*sin(x(3)); u(1); u(2)];
