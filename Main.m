@@ -65,7 +65,7 @@ for k=1:N
     end
     %creating positions of real, self-measured and consign robots
     x_tank=[x(1);x(2);theta]; % real robot
-    xm_tank=[x_med2(1);x_med2(2);theta_measure]; %measured robot
+    xm_tank=[x_med(1);x_med(2);theta_measure]; %measured robot
     xc_tank=[xc; thetac]; %consign robot
     %saving those positions in lists.
     x_tank_list(:,k)=x_tank;
@@ -74,37 +74,46 @@ for k=1:N
 end
 
 %Displaying the results after the end of all calculations
-figure(1);
 [enrow,encol]=find(envimat==1);
-for l=1:N
-    %iterate the representation when stopped by pressing any key.
-    a = waitforbuttonpress;
-    for k=1:N
-        
-        figure(1);
-        clf;
-        axis([-10 20 -10 20]);axis square; hold on;
-        %plot free boxes
-        [row,col]=find(mats{k});
-        for i=1:length(row)
-            plot(Boxes{row(i),col(i)},'green','green',1);
-        end
-        %plot walls
-%         for i=1:length(enrow)
-%             plot(Boxes{enrow(i),encol(i)},'black','black',1);
-%         end
-
-        %plot colliding boxes
-        [row,col]=find(hit{k});
-        for i=1:length(row)
-            plot(Boxes{row(i),col(i)},'red','red',1);
-        end
-        %plot robots
-        draw_tank(x_tank_list(:,k),'blue',0.2);
-        draw_tank(xm_tank_list(:,k),'red',0.2);
-        draw_tank(xc_tank_list(:,k),'black',0.2);
-        
-        drawnow;
-
+filename = 'testAnimated2.gif';
+folder='C:\Users\selen\Documents\GitHub\BoxParticleFilter';
+h=figure;
+for k=1:N
+    clf;
+    axis([-10 20 -10 20]);axis square;hold on;    
+    %plot free boxes
+    [row,col]=find(mats{k});
+    for i=1:length(row)
+        plot(Boxes{row(i),col(i)},'green','green',1);
     end
+%         plot walls
+    for i=1:length(enrow)
+        plot(Boxes{enrow(i),encol(i)},'black','black',1);
+    end
+
+    %plot colliding boxes
+    [row,col]=find(hit{k});
+    for i=1:length(row)
+        plot(Boxes{row(i),col(i)},'red','red',1);
+    end
+    %plot robots
+    draw_tank(x_tank_list(:,k),'blue',0.2);
+    draw_tank(xm_tank_list(:,k),'red',0.2);
+    draw_tank(xc_tank_list(:,k),'black',0.2);
+
+    drawnow;
+
+    % Capture the plot as an image 
+    frame = getframe(h); 
+    im = frame2im(frame); 
+    [imind,cm] = rgb2ind(im,256); 
+    % Write to the GIF File 
+    if k == 1 
+      imwrite(imind,cm,fullfile(folder,filename),'gif', 'Loopcount',inf); 
+    else 
+      imwrite(imind,cm,fullfile(folder,filename),'gif','WriteMode','append'); 
+    end 
+
+
+
 end
